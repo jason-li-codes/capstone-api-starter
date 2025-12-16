@@ -12,16 +12,15 @@ public class DatabaseConfig
     private BasicDataSource basicDataSource;
 
     @Bean
-    public BasicDataSource dataSource()
-    {
+    public BasicDataSource dataSource() {
         return basicDataSource;
     }
 
     @Autowired
     public DatabaseConfig(@Value("${datasource.url}") String url,
                           @Value("${datasource.username}") String username,
-                          @Value("${datasource.password}") String password)
-    {
+                          @Value("${datasource.password}") String password) {
+
         basicDataSource = new BasicDataSource();
         basicDataSource.setUrl(url);
         basicDataSource.setUsername(username);
