@@ -9,10 +9,10 @@ public interface ShoppingCartDao {
 
 
     ShoppingCart getByUserId(int userId);
-    ShoppingCart getByProductId(int productId);
     ShoppingCart getByOrderId(int orderId);
-    ShoppingCart updateShoppingCart(ShoppingCartItem item);
+    void addItemShoppingCart(int userId, ShoppingCartItem item);
+    void updateItemShoppingCart(int userId, ShoppingCartItem item);
+    void deleteShoppingCart(int userId);
     BigDecimal getShoppingCartTotal(ShoppingCart shoppingCart);
-    void deleteShoppingCart(ShoppingCart shoppingCart);
 
 }
