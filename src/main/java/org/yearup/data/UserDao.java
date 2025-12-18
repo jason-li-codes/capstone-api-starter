@@ -10,11 +10,13 @@ public interface UserDao {
 
     User getUserById(int userId);
 
-    User getByUserName(String username);
+    User getUserByUserName(String username);
 
     int getIdByUsername(String username);
 
     User create(User user);
+
+    User update(User user);
 
     boolean exists(String username);
 }
