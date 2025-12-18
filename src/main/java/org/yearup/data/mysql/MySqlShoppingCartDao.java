@@ -110,7 +110,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
 
     @Override
-    public ShoppingCart addItemShoppingCart(int userId, ShoppingCartItem item) {
+    public ShoppingCart addItem(int userId, ShoppingCartItem item) {
 
         String sql = """
                 INSERT INTO
@@ -134,7 +134,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
 
     @Override
-    public ShoppingCart updateItemShoppingCart(int userId, ShoppingCartItem item) {
+    public ShoppingCart updateItem(int userId, ShoppingCartItem item) {
 
         String sql = """
                 UPDATE
