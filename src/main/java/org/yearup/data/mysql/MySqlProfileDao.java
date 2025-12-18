@@ -23,7 +23,7 @@ public class MySqlProfileDao extends MySqlDaoBase implements ProfileDao {
                 VALUES
                     (?, ?, ?, ?, ?, ?, ?, ?, ?);""";
 
-        try(Connection connection = getConnection()) {
+        try (Connection connection = getConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setInt(1, profile.getUserId());
             ps.setString(2, profile.getFirstName());
