@@ -40,7 +40,7 @@ public class ShoppingCartController {
             // get the currently logged-in username
             String userName = principal.getName();
             // find database user by userId
-            User user = userDao.getByUserName(userName);
+            User user = userDao.getUserByUserName(userName);
             int userId = user.getId();
             // use the shoppingcartDao to get all items in the cart and return the cart
             return shoppingCartDao.getByUserId(userId);
@@ -60,11 +60,11 @@ public class ShoppingCartController {
 
         try {
             String userName = principal.getName();
-            User user = userDao.getByUserName(userName);
+            User user = userDao.getUserByUserName(userName);
             if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
 
             int userId = user.getId();
-            return shoppingCartDao.addItemShoppingCart(userId, new ShoppingCartItem(productDao.getById(productId)));
+            return shoppingCartDao.addItem(userId, new ShoppingCartItem(productDao.getById(productId)));
         }
         catch (ResponseStatusException e) {
             throw e;
@@ -82,11 +82,10 @@ public class ShoppingCartController {
 
         try {
             String userName = principal.getName();
-            User user = userDao.getByUserName(userName);
+            User user = userDao.getUserByUserName(userName);
             if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
             int userId = user.getId();
-            shoppingCartDao.updateItemShoppingCart(userId, shoppingCartItem);
-            return shoppingCartDao.getByUserId(userId);
+            return shoppingCartDao.updateItem(userId, shoppingCartItem);
         }
         catch (ResponseStatusException e) {
             throw e;
@@ -104,7 +103,7 @@ public class ShoppingCartController {
 
         try {
             String userName = principal.getName();
-            User user = userDao.getByUserName(userName);
+            User user = userDao.getUserByUserName(userName);
             if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
             int userId = user.getId();
             shoppingCartDao.deleteShoppingCart(userId);
