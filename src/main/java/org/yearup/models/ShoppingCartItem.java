@@ -4,12 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 
-public class ShoppingCartItem
-{
-    private Product product = null;
-    private int quantity = 1;
-    private BigDecimal discountPercent = BigDecimal.ZERO;
+public class ShoppingCartItem {
 
+    private Product product;
+    private int quantity = 1;
+    private BigDecimal discountPercent;
+
+    public ShoppingCartItem() {
+        this.product = null;
+        this.discountPercent = BigDecimal.ZERO;
+    }
+
+    public ShoppingCartItem(Product product) {
+        this.product = product;
+        this.discountPercent = BigDecimal.ZERO;
+    }
 
     public Product getProduct()
     {
@@ -47,8 +56,7 @@ public class ShoppingCartItem
         return this.product.getProductId();
     }
 
-    public BigDecimal getLineTotal()
-    {
+    public BigDecimal getLineTotal() {
         BigDecimal basePrice = product.getPrice();
         BigDecimal quantity = new BigDecimal(this.quantity);
 

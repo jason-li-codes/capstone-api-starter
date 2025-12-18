@@ -110,7 +110,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
     }
 
     @Override
-    public void addItemShoppingCart(int userId, ShoppingCartItem item) {
+    public ShoppingCart addItemShoppingCart(int userId, ShoppingCartItem item) {
 
         String sql = """
                 INSERT INTO
@@ -118,17 +118,16 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
                 VALUES
                     (?, ?, 1)
                 ON DUPLICATE KEY UPDATE
-                    quantity = quantity + ?;""";
+                    quantity = quantity + 1;""";
 
         try (Connection connection = getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, item.getProduct().getProductId());
-            preparedStatement.setInt(3, item.getQuantity());
 
             preparedStatement.executeUpdate();
-
+            return getByUserId(userId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
