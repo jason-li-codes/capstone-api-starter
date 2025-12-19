@@ -12,10 +12,12 @@ import org.yearup.models.Product;
 
 import java.util.List;
 
-// add the annotations to make this a REST controller
-// add the annotation to make this controller the endpoint for the following url
-// http://localhost:8080/categories
-// add annotation to allow cross site origin requests
+/**
+ * Deletes a category by its ID.
+ * This method responds to DELETE requests at the "/categories/{id}" endpoint and deletes the category with the specified ID.
+ * This method requires the user to have the "ROLE_ADMIN" role to be executed successfully.
+ * If there is an error during the category deletion process, a 500 Internal Server Error is thrown.
+ */
 @RestController
 @RequestMapping("categories")
 @CrossOrigin
@@ -31,7 +33,11 @@ public class CategoriesController {
         this.productDao = productDao;
     }
 
-    // add the appropriate annotation for a get action
+    /**
+     * Retrieves a list of all categories.
+     * This method responds to GET requests at the "/categories" endpoint and returns all categories available in the database.
+     * If there is an error during the retrieval process, a 500 Internal Server Error is thrown..
+     */
     @GetMapping("")
     @PreAuthorize("permitAll()")
     // find and return all categories
@@ -44,9 +50,14 @@ public class CategoriesController {
         }
     }
 
+    /**
+     * Retrieves a category by its ID.
+     * This method responds to GET requests at the "/categories/{id}" endpoint and retrieves a category by its ID.
+     * If the category with the provided ID does not exist, a 404 Not Found status is returned.
+     * If there is an error during the retrieval process, a 500 Internal Server Error is thrown.
+     */
     @GetMapping("{id}")
     @PreAuthorize("permitAll()")
-    // get the category by id
     public Category getById(@PathVariable int id) {
         // set category to null initially
         Category category = null;
@@ -64,11 +75,14 @@ public class CategoriesController {
         return category;
     }
 
-    // the url to return all products in category 1 would look like this
-    // https://localhost:8080/categories/1/products
+    /**
+     * Retrieves a category by its ID.
+     * This method responds to GET requests at the "/categories/{id}" endpoint and retrieves a category by its ID.
+     * If the category with the provided ID does not exist, a 404 Not Found status is returned.
+     * If there is an error during the retrieval process, a 500 Internal Server Error is thrown.
+     */
     @GetMapping("{categoryId}/products")
     @PreAuthorize("permitAll()")
-    // get a list of product by categoryId
     public List<Product> getProductsById(@PathVariable int categoryId) {
 
         try { // calls productDao
@@ -78,10 +92,15 @@ public class CategoriesController {
         }
     }
 
+    /**
+     * Adds a new category.
+     * This method responds to POST requests at the "/categories" endpoint and adds a new category to the database.
+     * This method requires the user to have the "ROLE_ADMIN" role to be executed successfully.
+     * If there is an error during the category creation process, a 500 Internal Server Error is thrown.
+     */
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED) // outputs correct status
     @PreAuthorize("hasRole('ROLE_ADMIN')") // limits function to ADMIN
-    // insert the category
     public Category addCategory(@RequestBody Category category) {
         // try to call categoryDao to create Category object
         try {
@@ -91,9 +110,14 @@ public class CategoriesController {
         }
     }
 
+    /**
+     * Updates an existing category by its ID.
+     * This method responds to PUT requests at the "/categories/{id}" endpoint and updates an existing category with the provided ID.
+     * This method requires the user to have the "ROLE_ADMIN" role to be executed successfully.
+     * If the category with the specified ID does not exist or an error occurs during the update process, a 500 Internal Server Error is thrown.
+     */
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')") // limits function to ADMIN
-    // update the category by id
     public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
         // try to call categoryDao to update Category object
         try {
@@ -105,10 +129,15 @@ public class CategoriesController {
         }
     }
 
+    /**
+     * Deletes a category by its ID.
+     * This method responds to DELETE requests at the "/categories/{id}" endpoint and deletes the category with the specified ID.
+     * This method requires the user to have the "ROLE_ADMIN" role to be executed successfully.
+     * If there is an error during the category deletion process, a 500 Internal Server Error is thrown.
+     */
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT) // output correct HTTP status
     @PreAuthorize("hasRole('ROLE_ADMIN')") // limits function to ADMIN
-    // delete the category by id
     public void deleteCategory(@PathVariable int id) {
         // try to call categoryDao to delete Category object
         try {

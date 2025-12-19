@@ -14,10 +14,16 @@ import org.yearup.models.User;
 
 import java.security.Principal;
 
-// add the annotations to make this a REST controller
-// add the annotation to make this controller the endpoint for the following url
-// http://localhost:8080/cart
-// add annotation to allow cross site origin requests
+/**
+ * REST controller responsible for handling shopping-cart related API requests.
+ * This controller allows authenticated users to view and manage their shopping cart.
+ * Supported operations include retrieving the current cart, adding products, updating
+ * product quantities, and clearing the cart. All actions are scoped to the currently
+ * logged-in user to ensure cart data is secure and user-specific. The controller
+ * relies on UserDao to identify the user, ProductDao to retrieve product data, and
+ * ShoppingCartDao to manage cart persistence. Cross-origin requests are enabled to
+ * support frontend applications.
+ */
 @RestController
 @RequestMapping("cart")
 @CrossOrigin
@@ -36,7 +42,12 @@ public class ShoppingCartController {
         this.productDao = productDao;
     }
 
-    // each method in this controller requires a Principal object as a parameter
+    /**
+     * Retrieves the shopping cart for the currently authenticated user.
+     * This method identifies the logged-in user using the security principal and returns
+     * the shopping cart associated with that user. If the user cannot be found or an
+     * error occurs while retrieving the cart, an appropriate HTTP error response is returned.
+     */
     @GetMapping
     @PreAuthorize("isAuthenticated()") // check to ensure correct user is accessing method
     public ShoppingCart getCart(Principal principal) {
@@ -59,8 +70,12 @@ public class ShoppingCartController {
         }
     }
 
-    // add a POST method to add a product to the cart - the url should be
-    // https://localhost:8080/cart/products/15 (15 is the productId to be added
+    /**
+     * Adds a product to the shopping cart for the currently authenticated user.
+     * This method adds the specified product to the user’s shopping cart and returns
+     * the updated cart. If the user or product cannot be found, or if an error occurs
+     * during the add operation, an appropriate HTTP error response is returned.
+     */
     @PostMapping("products/{productId}")
     @ResponseStatus(HttpStatus.CREATED) // gives correct HTTP status
     @PreAuthorize("isAuthenticated()")
@@ -85,9 +100,12 @@ public class ShoppingCartController {
         }
     }
 
-    // add a PUT method to update an existing product in the cart - the url should be
-    // https://localhost:8080/cart/products/15 (15 is the productId to be updated)
-    // the BODY should be a ShoppingCartItem - quantity is the only value that will be updated
+    /**
+     * Updates an existing product in the shopping cart for the currently authenticated user.
+     * This method updates the quantity of a product already present in the user’s cart
+     * and returns the updated shopping cart. If the user cannot be found or an error
+     * occurs during the update process, an appropriate HTTP error response is returned.
+     */
     @PutMapping("products/{id}")
     @PreAuthorize("isAuthenticated()")
     public ShoppingCart updateCart(Principal principal, @PathVariable int id, @RequestBody ShoppingCartItem shoppingCartItem) {
@@ -112,8 +130,12 @@ public class ShoppingCartController {
         }
     }
 
-    // add a DELETE method to clear all products from the current users cart
-    // https://localhost:8080/cart
+    /**
+     * Clears all products from the shopping cart for the currently authenticated user.
+     * This method removes all items from the user’s shopping cart and returns an empty
+     * cart. If the user cannot be found or an error occurs during the deletion process,
+     * an appropriate HTTP error response is returned.
+     */
     @DeleteMapping
     @PreAuthorize("hasRole('ROLE_USER')") // check to ensure user is logged in before accessing method
     public ShoppingCart deleteCart(Principal principal) {

@@ -10,6 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * MySQL implementation of the OrderLineItemDao interface.
+ * This data access object provides database operations for managing order line items
+ * using JDBC and a MySQL data source. It handles creating new order line item records
+ * in the database and retrieving the generated ID after insertion. This component is
+ * managed by Spring and used by higher layers of the application to persist order
+ * line item data.
+ */
 @Component
 public class MySqlOrderLineItemDao extends MySqlDaoBase implements OrderLineItemDao {
     // constructor injects the datasource and passes it to the base dao
@@ -17,6 +25,14 @@ public class MySqlOrderLineItemDao extends MySqlDaoBase implements OrderLineItem
         super(dataSource);
     }
 
+    /**
+     * Creates a new order line item in the database.
+     * This method inserts a new record into the order_line_items table using the provided
+     * OrderLineItem object. The fields order ID, product ID, sales price, quantity, and
+     * discount are saved. After a successful insert, the generated order line item ID
+     * is retrieved and set on the OrderLineItem object, which is then returned. Any
+     * database errors result in a runtime exception.
+     */
     @Override
     public OrderLineItem create(OrderLineItem orderLineItem) {
         // parameterized SQL to prevent SQL injection

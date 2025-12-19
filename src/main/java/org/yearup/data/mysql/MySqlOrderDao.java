@@ -15,6 +15,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQL implementation of the OrderDao interface.
+ * This data access object provides database operations for managing orders
+ * using JDBC and a MySQL data source. It is responsible for creating new orders
+ * and retrieving orders associated with a specific user. The class extends
+ * MySqlDaoBase to obtain database connections and maps database rows to Order
+ * model objects. This component is managed by Spring and used by higher layers
+ * of the application to perform order-related persistence operations.
+ */
 @Component
 public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
     // constructor injects the datasource and passes it to the base DAO
@@ -22,6 +31,14 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
         super(dataSource);
     }
 
+    /**
+     * Creates a new order in the database.
+     * This method inserts a new order record using the provided Order object. The
+     * order's fields, including user ID, date, address, city, state, zip code, and
+     * shipping amount, are saved. After a successful insert, the generated order ID
+     * is retrieved and set on the Order object, which is then returned. Any database
+     * errors result in a runtime exception.
+     */
     @Override
     public Order create(Order order) {
         // parameterized SQL to prevent SQL injection
@@ -58,6 +75,13 @@ public class MySqlOrderDao extends MySqlDaoBase implements OrderDao {
         }
     }
 
+    /**
+     * Retrieves all orders for a specific user.
+     * This method queries the orders table for records associated with the provided
+     * user ID. Each row is mapped to an Order object, including converting the
+     * datetime string to a LocalDateTime object. A list of all orders for the user
+     * is returned. Any database access errors result in a runtime exception.
+     */
     @Override
     public List<Order> getOrdersByUserId(int userId) {
         // instantiate list to store orders

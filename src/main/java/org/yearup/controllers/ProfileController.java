@@ -12,10 +12,15 @@ import org.yearup.models.User;
 
 import java.security.Principal;
 
-// add the annotations to make this a REST controller
-// add the annotation to make this controller the endpoint for the following url
-// http://localhost:8080/profile
-// add annotation to allow cross site origin requests
+/**
+ * REST controller responsible for handling user profile–related API requests.
+ * This controller provides endpoints for authenticated users to retrieve and update
+ * their own profile information. Access is restricted to the currently logged-in
+ * user, ensuring that profile data cannot be viewed or modified by other users.
+ * The controller relies on UserDao to identify the authenticated user and ProfileDao
+ * to perform profile data retrieval and updates. Cross-origin requests are enabled
+ * to support frontend applications.
+ */
 @RestController
 @RequestMapping("profile")
 @CrossOrigin
@@ -31,6 +36,12 @@ public class ProfileController {
         this.userDao = userDao;
     }
 
+    /**
+     * Retrieves the profile for the currently authenticated user.
+     * This method uses the authenticated user’s security principal to determine the
+     * associated user account and returns the profile linked to that user. If an error
+     * occurs while retrieving the profile, an appropriate HTTP error response is returned.
+     */
     @GetMapping
     @PreAuthorize("isAuthenticated()") // check to ensure correct user is accessing method
     public Profile getProfileById(Principal principal) {
@@ -50,6 +61,13 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Updates the profile for the currently authenticated user.
+     * This method allows an authenticated user to modify their own profile information.
+     * The update is applied only to the profile associated with the current user. If an
+     * error occurs during the update process, an appropriate HTTP error response is
+     * returned.
+     */
     @PutMapping
     @PreAuthorize("isAuthenticated()") // check to ensure correct user is accessing method
     public Profile updateProfile(Principal principal, @RequestBody Profile profile) {

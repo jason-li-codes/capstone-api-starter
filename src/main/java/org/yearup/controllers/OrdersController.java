@@ -14,10 +14,15 @@ import org.yearup.services.OrderService;
 import java.security.Principal;
 import java.util.List;
 
-// add the annotations to make this a REST controller
-// add the annotation to make this controller the endpoint for the following url
-// http://localhost:8080/orders
-// add annotation to allow cross site origin requests
+/**
+ * REST controller responsible for handling order-related API requests.
+ * This controller provides endpoints for authenticated users to view their orders
+ * and to complete the checkout process. It uses the authenticated user’s security
+ * principal to ensure that users can only access and create orders associated with
+ * their own account. The controller coordinates with OrderDao for order retrieval,
+ * UserDao for user validation, and OrderService to handle checkout business logic.
+ * Cross-origin requests are allowed to support frontend applications.
+ */
 @RestController
 @CrossOrigin
 @RequestMapping("orders")
@@ -35,6 +40,13 @@ public class OrdersController {
         this.userDao = userDao;
     }
 
+    /**
+     * Retrieves all orders associated with the currently authenticated user.
+     * This method uses the authenticated user’s security principal to identify the user
+     * making the request and returns a list of orders that belong only to that user.
+     * If the user cannot be found or an error occurs while retrieving the orders,
+     * an appropriate HTTP error response is returned.
+     */
     @GetMapping("view")
     @PreAuthorize("isAuthenticated()") // check to ensure correct user is accessing method
     public List<Order> getOrders(Principal principal) {
@@ -55,11 +67,18 @@ public class OrdersController {
         }
     }
 
+    /**
+     * Processes the checkout operation for the currently authenticated user.
+     * This method creates a new order based on the authenticated user’s current cart
+     * and completes the checkout process using the order service. The request is
+     * restricted to authenticated users, and only orders associated with the current
+     * user may be created. If checkout fails or an error occurs during processing,
+     * an appropriate HTTP error response is returned.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) // output correct HTTP status
     @PreAuthorize("isAuthenticated()") // check to ensure correct user is accessing method
     public Order checkout(Principal principal) {
-
         // try to execute code to retrieve orders
         try {
             // first get the user by accessing principal and getting the name attribute

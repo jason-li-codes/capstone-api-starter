@@ -9,6 +9,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MySQL implementation of the CategoryDao interface.
+ * This data access object provides database operations for managing categories
+ * using JDBC and a MySQL data source. It is responsible for retrieving, creating,
+ * updating, and deleting category records in the database. The class extends a
+ * shared MySqlDaoBase to obtain database connections and maps database rows to
+ * Category model objects. This component is managed by Spring and used by higher
+ * layers of the application to perform category-related persistence operations.
+ */
 @Component
 public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
@@ -17,6 +26,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         super(dataSource);
     }
 
+    /**
+     * Retrieves all categories from the database.
+     * This method queries the categories table and returns a list containing every
+     * category found. Each database row is mapped to a Category object. If a database
+     * error occurs during execution, a runtime exception is thrown.
+     */
     @Override
     public List<Category> getAllCategories() {
         // list to store all categories
@@ -47,6 +62,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return categories;
     }
 
+    /**
+     * Retrieves a single category by its unique identifier.
+     * This method queries the categories table using the provided category ID and
+     * returns the matching Category object if found. If no category exists with the
+     * given ID, null is returned. Any database access errors result in a runtime exception.
+     */
     @Override
     public Category getById(int categoryId) {
         // parameterized SQL to prevent SQL injection
@@ -76,6 +97,13 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return null;
     }
 
+    /**
+     * Creates a new category in the database.
+     * This method inserts a new category record using the provided Category object.
+     * After a successful insert, the generated category ID is retrieved and used to
+     * return the fully populated Category object. If the insert fails, null is returned,
+     * and database errors result in a runtime exception.
+     */
     @Override
     public Category create(Category category) {
         // parameterized SQL to prevent SQL injection
@@ -110,6 +138,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         return null;
     }
 
+    /**
+     * Updates an existing category in the database.
+     * This method updates the name and description of the category identified by the
+     * given ID. If the category does not exist, no changes are made. Any database
+     * access errors result in a runtime exception.
+     */
     @Override
     public void update(int categoryId, Category category) {
         // parameterized SQL to prevent SQL injection
@@ -135,6 +169,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         }
     }
 
+    /**
+     * Deletes a category from the database.
+     * This method removes the category record associated with the given ID from the
+     * database. If the category does not exist, no action is taken. Any database
+     * access errors result in a runtime exception.
+     */
     @Override
     public void delete(int categoryId) {
         // parameterized SQL to prevent SQL injection
@@ -155,6 +195,12 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
         }
     }
 
+    /**
+     * Maps a database result set row to a Category object.
+     * This helper method extracts category field values from the current row of the
+     * result set and constructs a Category object. It is used internally by query
+     * methods to convert database records into domain objects.
+     */
     protected static Category mapCategoryRow(ResultSet row) throws SQLException {
         // get correct Category values by using getters for ResultSet
         int categoryId = row.getInt("category_id");
