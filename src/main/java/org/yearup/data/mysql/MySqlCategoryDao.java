@@ -63,12 +63,13 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
 
             if (resultSet.next()) {
                 return mapCategoryRow(resultSet);
+            } else {
+                return null;
             }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override
@@ -113,7 +114,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                     name = ?,
                     description = ?
                 WHERE
-                    categoryId = ?;""";
+                    category_id = ?;""";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -135,7 +136,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao {
                 DELETE FROM
                     categories
                 WHERE
-                    categoryId = ?;""";
+                    category_id = ?;""";
 
         try (Connection connection = getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

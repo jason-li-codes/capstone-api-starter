@@ -177,8 +177,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
 
             preparedStatement.setInt(1, userId);
 
-            int rows = preparedStatement.executeUpdate();
-            if (rows == 0) throw new SQLException("Update failed, no rows affected!");
+            preparedStatement.executeUpdate();
 
         } catch (Exception e) {
             throw new RuntimeException(e);

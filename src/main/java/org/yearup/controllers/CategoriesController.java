@@ -91,10 +91,11 @@ public class CategoriesController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     // update the category by id
-    public void updateCategory(@PathVariable int id, @RequestBody Category category) {
+    public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
 
         try {
             categoryDao.update(id, category);
+            return categoryDao.getById(id);
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }

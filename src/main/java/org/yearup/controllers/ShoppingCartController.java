@@ -98,9 +98,8 @@ public class ShoppingCartController {
     // add a DELETE method to clear all products from the current users cart
     // https://localhost:8080/cart
     @DeleteMapping
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PreAuthorize("hasRole('ROLE_USER')")
-    public void deleteCart(Principal principal) {
+    public ShoppingCart deleteCart(Principal principal) {
 
         try {
             String userName = principal.getName();
@@ -108,6 +107,7 @@ public class ShoppingCartController {
             if (user == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
             int userId = user.getId();
             shoppingCartDao.deleteShoppingCart(userId);
+            return new ShoppingCart();
         }
         catch (ResponseStatusException e) {
             throw e;
