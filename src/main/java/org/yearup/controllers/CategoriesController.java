@@ -21,10 +21,10 @@ import java.util.List;
 @CrossOrigin
 public class CategoriesController {
 
+    // add necessary daos
     private CategoryDao categoryDao;
     private ProductDao productDao;
-
-    // create an Autowired controller to inject the categoryDao and ProductDao
+    // create an Autowired controller to inject the categoryDao and ProductDao through constructor
     @Autowired
     public CategoriesController(CategoryDao categoryDao, ProductDao productDao) {
         this.categoryDao = categoryDao;
@@ -37,9 +37,9 @@ public class CategoriesController {
     // find and return all categories
     public List<Category> getAll() {
 
-        try {
+        try { // tries calling categoryDao
             return categoryDao.getAllCategories();
-        } catch (Exception ex) {
+        } catch (Exception ex) { // returns error if dao fails
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
@@ -48,15 +48,17 @@ public class CategoriesController {
     @PreAuthorize("permitAll()")
     // get the category by id
     public Category getById(@PathVariable int id) {
-
+        // set category to null initially
         Category category = null;
 
         try {
+            // try to get the correct category by calling getById from categoryDao
             category = categoryDao.getById(id);
-        }
+        } // catches exception and throws error
         catch(Exception ex) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
+        // throws NOT_FOUND error if dao was successful but not category is found
         if (category == null)
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         return category;
@@ -69,48 +71,49 @@ public class CategoriesController {
     // get a list of product by categoryId
     public List<Product> getProductsById(@PathVariable int categoryId) {
 
-        try {
+        try { // calls productDao
             return productDao.listByCategoryId(categoryId);
-        } catch (Exception ex) {
+        } catch (Exception ex) { // throws error if productDao fails
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
     @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED) // outputs correct status
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // limits function to ADMIN
     // insert the category
     public Category addCategory(@RequestBody Category category) {
-
+        // try to call categoryDao to create Category object
         try {
             return categoryDao.create(category);
-        } catch (Exception ex) {
+        } catch (Exception ex) { // throws error if categoryDao fails
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // limits function to ADMIN
     // update the category by id
     public Category updateCategory(@PathVariable int id, @RequestBody Category category) {
-
+        // try to call categoryDao to update Category object
         try {
             categoryDao.update(id, category);
+            // return Category after updating
             return categoryDao.getById(id);
-        } catch (Exception ex) {
+        } catch (Exception ex) {  // throws error if categoryDao fails
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
 
     @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT) // output correct HTTP status
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // limits function to ADMIN
     // delete the category by id
     public void deleteCategory(@PathVariable int id) {
-
+        // try to call categoryDao to delete Category object
         try {
             categoryDao.delete(id);
-        } catch (Exception ex) {
+        } catch (Exception ex) { // throws error if categoryDao fails
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
