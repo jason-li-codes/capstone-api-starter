@@ -2,6 +2,11 @@ package org.yearup.models;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents an order line item and maps directly to the corresponding
+ * columns in the database's order line items table. Each instance holds
+ * the necessary attributes.
+ */
 public class OrderLineItem {
 
     private int orderLineItemId;

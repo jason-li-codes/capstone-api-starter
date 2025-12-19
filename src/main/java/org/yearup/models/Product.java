@@ -2,6 +2,11 @@ package org.yearup.models;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a product and maps directly to the corresponding
+ * columns in the database's products table. Each instance holds
+ * the necessary attributes.
+ */
 public class Product
 {
     private int productId;

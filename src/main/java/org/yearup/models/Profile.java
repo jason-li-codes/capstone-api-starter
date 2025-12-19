@@ -1,5 +1,10 @@
 package org.yearup.models;
 
+/**
+ * Represents a profile and maps directly to the corresponding
+ * columns in the database's profiles table. Each instance holds
+ * the necessary attributes.
+ */
 public class Profile
 {
     private int userId;

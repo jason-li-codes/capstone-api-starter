@@ -3,6 +3,11 @@ package org.yearup.models;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Represents an order and maps directly to the corresponding
+ * columns in the database's orders table. Each instance holds
+ * the necessary attributes.
+ */
 public class Order {
     private int orderId;
     private int userId;

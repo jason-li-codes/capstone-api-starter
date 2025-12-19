@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Represents a shopping cart and maps directly to the corresponding
+ * columns in the database's shopping carts table. Each instance holds
+ * the necessary attributes, and represents one shopping cart item.
+ */
 public class ShoppingCart
 {
     private Map<Integer, ShoppingCartItem> items = new HashMap<>();

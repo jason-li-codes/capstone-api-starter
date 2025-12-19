@@ -15,6 +15,14 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+/**
+ * Provides the business logic for processing customer orders.
+ * This service coordinates interactions between the shopping cart,
+ * user profile, order records, and order line items to complete
+ * the checkout workflow. It ensures that required data exists,
+ * calculates order totals, persists order information, and clears
+ * the shopping cart after a successful checkout.
+ */
 @Service
 public class OrderService {
     // class contains the following attributes
@@ -33,6 +41,14 @@ public class OrderService {
         this.profileDao = profileDao;
     }
 
+    /**
+     * Initializes an Order object with user profile and order metadata.
+     * This method retrieves the user's profile information and uses it
+     * to populate shipping address details for the order. It also sets
+     * the order date and associates the order with the correct user.
+     * If the user's profile does not exist, the method throws an error
+     * and prevents the checkout process from continuing.
+     */
     public Order checkout(int userId) {
 
         Order order = new Order();
@@ -70,6 +86,14 @@ public class OrderService {
         return order;
     }
 
+    /**
+     * Initializes an Order object with user profile and order metadata.
+     * This method retrieves the user's profile information and uses it
+     * to populate shipping address details for the order. It also sets
+     * the order date and associates the order with the correct user.
+     * If the user's profile does not exist, the method throws an error
+     * and prevents the checkout process from continuing.
+     */
     @Transactional
     private void createOrder(int userId, Order order) {
 

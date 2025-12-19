@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a shopping cart item and maps directly to the corresponding
+ * columns in the database's shopping cart table. Each instance holds
+ * the necessary attributes.
+ */
 public class ShoppingCartItem {
 
     private Product product;

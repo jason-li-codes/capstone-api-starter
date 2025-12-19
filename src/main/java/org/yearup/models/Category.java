@@ -1,5 +1,10 @@
 package org.yearup.models;
 
+/**
+ * Represents a product category and maps directly to the corresponding
+ * columns in the database's categories table. Each instance holds
+ * the category ID, name, and description as stored in the database.
+ */
 public class Category
 {
     private int categoryId;

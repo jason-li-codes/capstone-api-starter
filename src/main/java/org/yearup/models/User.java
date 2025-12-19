@@ -7,6 +7,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Represents a user and maps directly to the corresponding
+ * columns in the database's users table. Each instance holds
+ * the necessary attributes.
+ */
 public class User {
 
    private int id;
